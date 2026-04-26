@@ -93,58 +93,6 @@
 
         .search-input {
             width: 100%;
-        .header-controls {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .url-input-wrapper {
-            display: flex;
-            gap: 10px;
-        }
-
-        .url-input {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--border);
-            padding: 10px 15px;
-            border-radius: var(--radius);
-            color: var(--text);
-            font-size: 13px;
-            outline: none;
-            transition: all 0.3s ease;
-            width: 300px;
-        }
-
-        .url-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 15px var(--primary-glow);
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        .url-input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .direct-download-btn {
-            background: transparent;
-            border: 1px solid var(--primary);
-            padding: 10px 20px;
-            border-radius: var(--radius);
-            color: var(--primary);
-            font-weight: 600;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            white-space: nowrap;
-        }
-
-        .direct-download-btn:hover {
-            background: var(--primary);
-            color: var(--text);
-            box-shadow: var(--shadow-glow);
-        }
-
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid var(--border);
             padding: 12px 20px 12px 45px;
@@ -154,16 +102,101 @@
             outline: none;
             transition: all 0.3s ease;
         }
-
+        
         .search-input:focus {
             border-color: var(--primary);
             box-shadow: 0 0 20px var(--primary-glow);
             background: rgba(0, 0, 0, 0.6);
         }
-
-        .search-input::placeholder {
-            color: var(--text-muted);
+        
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
+        
+        .url-input-wrapper {
+            display: flex;
+            gap: 0;
+            align-items: center;
+        }
+        
+        .url-input {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
+            border-right: none;
+            padding: 12px 18px;
+            border-radius: var(--radius) 0 0 var(--radius);
+            color: var(--text);
+            font-size: 13px;
+            outline: none;
+            transition: all 0.3s ease;
+            width: 320px;
+        }
+        
+        .url-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2;
+            position: relative;
+        }
+        
+        .url-input::placeholder {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+        
+        .direct-download-btn {
+            background: linear-gradient(135deg, var(--primary), #c40038);
+            border: 1px solid var(--primary);
+            border-left: none;
+            padding: 12px 24px;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            color: var(--text);
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            margin-left: -1px;
+        }
+        
+        .direct-download-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .direct-download-btn:hover {
+            box-shadow: var(--shadow-glow), 0 5px 20px rgba(255, 0, 76, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .direct-download-btn:hover::before {
+            left: 100%;
+        }
+        
+        .direct-download-btn:active {
+            transform: translateY(0);
+        }
+        
+        .direct-download-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+
 
         .search-icon {
             position: absolute;
@@ -571,7 +604,7 @@
             </div>
             <div class="player-controls">
                 <button class="player-close" onclick="closePlayer()">✕ ЗАКРЫТЬ</button>
-                <button class="download-btn" id="downloadBtn">СКАЧАТЬ В 4K</button>
+                <button class="download-btn" id="downloadBtn">СКАЧАТЬ</button>
             </div>
         </div>
     </div>
