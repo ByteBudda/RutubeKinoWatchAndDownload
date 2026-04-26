@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.log
+.babel-cache
+.env
+.DS_Store
+downloads/
