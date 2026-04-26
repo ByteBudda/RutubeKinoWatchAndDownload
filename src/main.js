@@ -138,7 +138,7 @@ function parseProgress(text, ws, url) {
         }
     }
 
-    const percentMatches = [...text.matchAll(/(\d+(?:\.\d+)?)%/g)];
+    let percentMatches = [...text.matchAll(/(\d+(?:\.\d+)?)%/g)];
     if (percentMatches.length === 0) return;
     const percent = parseFloat(percentMatches[percentMatches.length - 1][1]);
 
@@ -279,6 +279,15 @@ server.listen(PORT, '127.0.0.1', () => {
 
 app.whenReady().then(() => {
     createWindow();
+    // Handle window close button - ensure server shutdown
+    if (mainWindow) {
+        mainWindow.on('close', (e) => {
+            for (const url of Object.keys(activeDownloads)) {
+                cancelDownload(url);
+            }
+            server.close();
+        });
+    }
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow();
     });
