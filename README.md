@@ -1,4 +1,4 @@
-# Kino Downloader - Professional Video Downloader
+# Kino and Anime Downloader - Professional Video Downloader
 
 [🇷🇺 Русский](#описание-на-русском) | [🇬🇧 English](#english-description)
 
