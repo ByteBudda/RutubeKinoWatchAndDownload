@@ -1,20 +1,58 @@
 {
   "name": "kino-downloader",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "type": "module",
+  "description": "Professional video downloader for Rutube and other services",
+  "author": "ByteBudda",
   "main": "src/main.js",
   "scripts": {
     "start": "electron src/main.js --no-sandbox",
-    "dev": "concurrently \"npm run start\" \"npm run server\"",
-    "server": "node src/server.js"
+    "build": "electron-builder"
   },
   "dependencies": {
+    "concurrently": "^8.2.2",
     "express": "^4.18.2",
-    "ws": "^8.14.2",
-    "electron": "^28.0.0",
-    "concurrently": "^8.2.2"
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "electron": "^28.3.3",
+    "electron-builder": "^24.9.1"
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "build": {
+    "appId": "com.bytebudda.kino-downloader",
+    "productName": "Kino Downloader",
+    "files": [
+      "src/**/*",
+      "public/**/*"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Video"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "icon.png"
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ]
+    },
+    "extraResources": [
+      {
+        "from": "public/",
+        "to": "public/"
+      }
+    ]
   }
 }
