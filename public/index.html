@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kino Downloader</title>
+    <title>RU Kino</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -77,50 +77,97 @@
             text-shadow: 0 0 20px var(--primary);
         }
 
-        .header-controls {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .search-form {
-            flex: 1;
-            max-width: 600px;
+        /* Playlist Dropdown */
+        .playlist-dropdown {
             position: relative;
-            display: flex;
-            align-items: center;
+            display: inline-block;
         }
 
-        .search-input {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.4);
+        .playlist-btn {
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border);
-            padding: 12px 20px 12px 45px;
+            padding: 12px 20px;
             border-radius: var(--radius);
             color: var(--text);
             font-size: 14px;
-            outline: none;
+            cursor: pointer;
             transition: all 0.3s ease;
-        }
-        
-        .search-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 20px var(--primary-glow);
-            background: rgba(0, 0, 0, 0.6);
-        }
-        
-        .header-controls {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 8px;
+            backdrop-filter: blur(10px);
         }
-        
+
+        .playlist-btn:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
+            background: rgba(255, 0, 76, 0.1);
+        }
+
+        .playlist-btn::after {
+            content: '▼';
+            font-size: 10px;
+            color: var(--text-muted);
+            transition: transform 0.3s ease;
+        }
+
+        .playlist-btn.open::after {
+            transform: rotate(180deg);
+        }
+
+        .playlist-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px 0;
+            min-width: 200px;
+            max-width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            box-shadow: var(--shadow), var(--shadow-glow);
+            z-index: 1000;
+            display: none;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .playlist-menu.show {
+            display: block;
+        }
+
+        .playlist-item {
+            padding: 10px 20px;
+            color: var(--text);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .playlist-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .playlist-item .playlist-name {
+            font-weight: 500;
+        }
+
+        .playlist-btn.active {
+            background: rgba(255, 0, 76, 0.2);
+            border-color: var(--primary);
+        }
+
         .url-input-wrapper {
             display: flex;
             gap: 0;
             align-items: center;
         }
-        
+
         .url-input {
             background: rgba(0, 0, 0, 0.5);
             border: 1px solid var(--border);
@@ -133,7 +180,7 @@
             transition: all 0.3s ease;
             width: 320px;
         }
-        
+
         .url-input:focus {
             border-color: var(--primary);
             box-shadow: 0 0 20px var(--primary-glow);
@@ -141,12 +188,12 @@
             z-index: 2;
             position: relative;
         }
-        
+
         .url-input::placeholder {
             color: var(--text-muted);
             font-size: 12px;
         }
-        
+
         .direct-download-btn {
             background: linear-gradient(135deg, var(--primary), #c40038);
             border: 1px solid var(--primary);
@@ -165,7 +212,7 @@
             overflow: hidden;
             margin-left: -1px;
         }
-        
+
         .direct-download-btn::before {
             content: "";
             position: absolute;
@@ -176,27 +223,113 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: left 0.5s;
         }
-        
+
         .direct-download-btn:hover {
             box-shadow: var(--shadow-glow), 0 5px 20px rgba(255, 0, 76, 0.4);
             transform: translateY(-2px);
         }
-        
+
         .direct-download-btn:hover::before {
             left: 100%;
         }
-        
+
         .direct-download-btn:active {
             transform: translateY(0);
         }
-        
+
         .direct-download-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
 
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
+        .search-form {
+            flex: 1;
+            max-width: 600px;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 100%;
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .url-input-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+
+        .url-input {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border);
+            padding: 10px 15px;
+            border-radius: var(--radius);
+            color: var(--text);
+            font-size: 13px;
+            outline: none;
+            transition: all 0.3s ease;
+            width: 300px;
+        }
+
+        .url-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .url-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .direct-download-btn {
+            background: transparent;
+            border: 1px solid var(--primary);
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .direct-download-btn:hover {
+            background: var(--primary);
+            color: var(--text);
+            box-shadow: var(--shadow-glow);
+        }
+
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border);
+            padding: 12px 20px 12px 45px;
+            border-radius: var(--radius);
+            color: var(--text);
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
 
         .search-icon {
             position: absolute;
@@ -575,7 +708,11 @@
     <div class="app-container">
         <header class="header">
             <div class="header-content">
-                <div class="logo">KINO<span class="logo-accent">·DOWNLOADER</span></div>
+                <div class="logo" onclick="resetToCatalog()">RU<span class="logo-accent">·КИНО</span></div>
+                <div class="playlist-dropdown">
+                    <button class="playlist-btn" id="playlistBtn" onclick="togglePlaylistMenu()">📺 Плейлисты</button>
+                    <div class="playlist-menu" id="playlistMenu"></div>
+                </div>
                 <form class="search-form" id="searchForm">
                     <span class="search-icon">🔍</span>
                     <input type="text" class="search-input" id="searchInput" placeholder="Поиск фильмов..." autocomplete="off">
@@ -604,7 +741,7 @@
             </div>
             <div class="player-controls">
                 <button class="player-close" onclick="closePlayer()">✕ ЗАКРЫТЬ</button>
-                <button class="download-btn" id="downloadBtn">СКАЧАТЬ</button>
+                <button class="download-btn" id="downloadBtn">СКАЧАТЬ В 4K</button>
             </div>
         </div>
     </div>
@@ -616,14 +753,17 @@
     <div class="notification" id="notification"></div>
 
     <script>
-        const API_BASE = `http://${location.hostname}:9764`;
+        const API_BASE = `http://${location.hostname}:9766`;
         let ws = null;
         let currentVideoUrl = '';
         let currentPage = 1;
         let isLoading = false;
         let hasMore = true;
         let isSearchMode = false;
+        let isPlaylistMode = false;
+        let currentPlaylist = null;
         const activeDownloads = {};
+        let playlists = [];
 
         // ===== Utility Functions =====
         function escapeHtml(str) {
@@ -761,6 +901,106 @@
         }
 
         // ===== API Functions =====
+
+        // ===== Playlist Functions =====
+        async function loadPlaylists() {
+            try {
+                playlists = await fetchAPI('/api/playlists');
+                renderPlaylistMenu();
+            } catch (error) {
+                console.error('Error loading playlists:', error);
+            }
+        }
+
+        function renderPlaylistMenu() {
+            const menu = document.getElementById('playlistMenu');
+            if (!menu) return;
+
+            const html = playlists.map((p, index) => {
+                const safeName = escapeHtml(p.name || 'Без имени');
+                return `                <div class="playlist-item" onclick="loadPlaylist(${index})">                    <span class="playlist-name">${safeName}</span>                </div>            `}).join('');
+
+            menu.innerHTML = html || '<div class="playlist-item" style="opacity: 0.5;">Нет плейлистов</div>';
+        }
+
+        function togglePlaylistMenu() {
+            const menu = document.getElementById('playlistMenu');
+            const btn = document.getElementById('playlistBtn');
+            if (!menu || !btn) return;
+            menu.classList.toggle('show');
+            btn.classList.toggle('open');
+        }
+
+        async function loadPlaylist(playlistIndex) {
+            togglePlaylistMenu();
+            const playlist = playlists[playlistIndex];
+            if (!playlist) {
+                showNotification('Плейлист не найден', true);
+                return;
+            }
+
+            currentPlaylist = playlist;
+            currentPlaylist.index = playlistIndex;
+            isPlaylistMode = true;
+            isSearchMode = false;
+            currentPage = 1;
+            hasMore = true;
+
+            const btn = document.getElementById('playlistBtn');
+            if (btn) {
+                btn.textContent = `📺 ${playlist.name || 'Плейлист'}`;
+                btn.classList.add('active');
+            }
+
+            const grid = document.getElementById('videoGrid');
+            if (grid) {
+                grid.innerHTML = '<div class="loading">ЗАГРУЗКА ПЛЕЙЛИСТА...</div>';
+            }
+
+            try {
+                const videos = await fetchAPI(`/api/playlist/${playlistIndex}?page=${currentPage}&size=24`);
+                renderVideos(videos, false);
+                currentPage = 2;
+            } catch (error) {
+                console.error('Playlist load error:', error);
+            }
+        }
+
+        function resetToCatalog() {
+            document.getElementById('searchInput').value = '';
+            isSearchMode = false;
+            isPlaylistMode = false;
+            currentPlaylist = null;
+
+            const btn = document.getElementById('playlistBtn');
+            if (btn) {
+                btn.textContent = '📺 Плейлисты';
+                btn.classList.remove('active');
+            }
+
+            loadCatalog(true);
+        }
+
+        async function loadMoreFromPlaylist() {
+            if (isLoading || !hasMore || !currentPlaylist) return;
+            isLoading = true;
+
+            try {
+                const videos = await fetchAPI(`/api/playlist/${currentPlaylist.index}?page=${currentPage}&size=24`);
+
+                if (videos.length === 0) {
+                    hasMore = false;
+                } else {
+                    renderVideos(videos, true);
+                    currentPage++;
+                }
+            } catch (error) {
+                console.error('Playlist pagination error:', error);
+            } finally {
+                isLoading = false;
+            }
+        }
+
         async function fetchAPI(endpoint, options = {}) {
             try {
                 const response = await fetch(`${API_BASE}${endpoint}`, options);
@@ -919,7 +1159,7 @@
         // ===== WebSocket Connection =====
         function connectWebSocket() {
             try {
-                ws = new WebSocket(`ws://${location.hostname}:9764`);
+                ws = new WebSocket(`ws://${location.hostname}:9766`);
 
                 ws.onopen = () => {
                     console.log('WebSocket connected');
@@ -990,6 +1230,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             connectWebSocket();
             loadCatalog(true);
+            loadPlaylists();
 
             // Search form
             const searchForm = document.getElementById('searchForm');
@@ -999,19 +1240,24 @@
                 if (query) searchVideos(query);
             });
 
-            // Logo click - reset to catalog
-            const logo = document.querySelector('.logo');
-            logo?.addEventListener('click', () => {
-                document.getElementById('searchInput').value = '';
-                isSearchMode = false;
-                loadCatalog(true);
-            });
+            // Logo click handled by onclick in HTML
 
             // Download button
             const downloadBtn = document.getElementById('downloadBtn');
             downloadBtn?.addEventListener('click', () => {
                 startDownload(currentVideoUrl);
                 closePlayer();
+            });
+
+            // Close playlist menu on outside click
+            document.addEventListener('click', (e) => {
+                const menu = document.getElementById('playlistMenu');
+                const btn = document.getElementById('playlistBtn');
+                if (!menu || !btn) return;
+                if (!e.target.closest('.playlist-dropdown')) {
+                    menu.classList.remove('show');
+                    btn.classList.remove('open');
+                }
             });
 
             // Infinite scroll with debounce
@@ -1021,9 +1267,15 @@
                 
                 if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
                     isScrolling = true;
-                    loadCatalog(false).finally(() => {
-                        setTimeout(() => { isScrolling = false; }, 500);
-                    });
+                    if (isPlaylistMode && currentPlaylist) {
+                        loadMoreFromPlaylist().finally(() => {
+                            setTimeout(() => { isScrolling = false; }, 500);
+                        });
+                    } else {
+                        loadCatalog(false).finally(() => {
+                            setTimeout(() => { isScrolling = false; }, 500);
+                        });
+                    }
                 }
             });
         });
