@@ -8,9 +8,11 @@ import { spawn } from 'child_process';
 import fs from 'fs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const PORT = 9764;
-const TARGET_CHANNELS = ["38284124", "32869212", "24525890", "30107314"];
+const PORT = 9766;
 const DOWNLOAD_DIR = app.getPath('downloads');
+const PLAYLISTS_FILE = app.isPackaged
+? path.join(__dirname, '../../public/rutube_playlists.json')
+: path.join(__dirname, '../public/rutube_playlists.json');
 
 if (!fs.existsSync(DOWNLOAD_DIR)) {
     fs.mkdirSync(DOWNLOAD_DIR, { recursive: true });
@@ -33,6 +35,35 @@ appExpress.get('/api/catalog', async (req, res) => {
     const size = parseInt(req.query.size) || 24;
     const results = await getCatalog(page, size);
     res.json(results);
+});
+
+appExpress.get('/api/playlists', async (req, res) => {
+    try {
+        const playlists = await getPlaylists();
+        res.json(playlists);
+    } catch (error) {
+        res.status(500).json([]);
+    }
+});
+
+appExpress.get('/api/playlist/:id', async (req, res) => {
+    const playlistId = req.params.id;
+    const page = parseInt(req.query.page) || 1;
+    const size = parseInt(req.query.size) || 24;
+    try {
+        // Find playlist by index or name in the playlists array
+        const playlists = await getPlaylists();
+        const playlist = playlists[parseInt(playlistId)] || playlists.find(p => p.name === playlistId || p.url.includes(playlistId));
+        
+        if (!playlist || !playlist.url) {
+            return res.status(404).json([]);
+        }
+        
+        const results = await getPlaylistVideos(playlist.url, page, size);
+        res.json(results);
+    } catch (error) {
+        res.status(500).json([]);
+    }
 });
 
 appExpress.get('/', (req, res) => {
@@ -184,38 +215,68 @@ function resumeDownload(url) {
 async function searchVideos(query) {
     const videos = [];
     const seen = new Set();
-    for (const channelId of TARGET_CHANNELS) {
-        try {
-            const apiUrl = `https://rutube.ru/api/search/video/?query=${encodeURIComponent(query)}&person=${channelId}`;
-            const response = await fetch(apiUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
-            const data = await response.json();
-            for (const item of data.results || []) {
-                const authorId = item.author?.id?.toString();
-                if (!seen.has(item.id) && authorId === channelId && (item.duration || 0) > 600) {
-                    seen.add(item.id);
-                    videos.push(formatVideo(item));
-                }
+    try {
+        const apiUrl = `https://rutube.ru/api/search/video/?query=${encodeURIComponent(query)}`;
+        const response = await fetch(apiUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+        const data = await response.json();
+        for (const item of data.results || []) {
+            if (!seen.has(item.id)) {
+                seen.add(item.id);
+                videos.push(formatVideo(item));
             }
-        } catch (error) {}
-    }
+        }
+    } catch (error) {}
     return videos;
 }
 
 async function getCatalog(page = 1, pageSize = 24) {
     const videos = [];
     const seen = new Set();
-    for (const channelId of TARGET_CHANNELS) {
-        try {
-            const apiUrl = `https://rutube.ru/api/video/person/${channelId}/?page=${page}&page_size=${pageSize}`;
-            const response = await fetch(apiUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
-            const data = await response.json();
-            for (const item of data.results || []) {
-                if (!seen.has(item.id) && (item.duration || 0) > 600) {
-                    seen.add(item.id);
-                    videos.push(formatVideo(item));
-                }
+    try {
+        const apiUrl = `https://rutube.ru/api/tags/video/6716/?style=feed&sort=tagged_d&show_hidden_videos=false&page=${page}&page_size=${pageSize}`;
+        const response = await fetch(apiUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+        const data = await response.json();
+        for (const item of data.results || []) {
+            if (!seen.has(item.id)) {
+                seen.add(item.id);
+                videos.push(formatVideo(item));
             }
-        } catch (error) {}
+        }
+    } catch (error) {}
+    return videos;
+}
+
+async function getPlaylists() {
+    try {
+        if (fs.existsSync(PLAYLISTS_FILE)) {
+            const data = fs.readFileSync(PLAYLISTS_FILE, 'utf8');
+            return JSON.parse(data);
+        }
+    } catch (error) {}
+    return [];
+}
+
+async function getPlaylistVideos(playlistUrl, page = 1, pageSize = 24) {
+    const videos = [];
+    const seen = new Set();
+    try {
+        // Use the full URL from the playlist config, but add page parameter
+        let apiUrl = playlistUrl;
+        
+        // Add or update page parameter
+        const separator = apiUrl.includes('?') ? '&' : '?';
+        apiUrl = apiUrl + separator + `page=${page}&page_size=${pageSize}`;
+        
+        const response = await fetch(apiUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+        const data = await response.json();
+        for (const item of data.results || []) {
+            if (!seen.has(item.id)) {
+                seen.add(item.id);
+                videos.push(formatVideo(item));
+            }
+        }
+    } catch (error) {
+        console.error('Error loading playlist:', error);
     }
     return videos;
 }
