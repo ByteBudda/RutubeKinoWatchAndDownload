@@ -1,0 +1,150 @@
+[
+  {
+    "name": "Новинки",
+    "url": "https://rutube.ru/api/tags/video/8151/?limit=100&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Шедевры кинематографа",
+    "url": "https://rutube.ru/api/tags/video/1365293/?sort=tagged_d&show_hidden_videos=False&limit=20"
+  },
+  {
+    "name": "Коллекции",
+    "url": "https://rutube.ru/api/v1/feeds/promogroup/479?show_hidden_videos=False&limit=20"
+  },
+  {
+    "name": "В топе",
+    "url": "https://rutube.ru/api/tags/video/7477/?sort=tagged_d&show_hidden_videos=False&limit=20"
+  },
+  {
+    "name": "ТОП-20 мультфильмов",
+    "url": "https://rutube.ru/api/tags/video/1365296/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Космические блокбастеры",
+    "url": "https://rutube.ru/api/tags/video/2976/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Мосфильм. Золотая коллекция",
+    "url": "https://rutube.ru/api/tags/video/7497/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Сказки по-новому",
+    "url": "https://rutube.ru/api/tags/video/8286/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Любовь, победившая время",
+    "url": "https://rutube.ru/api/tags/video/1365291/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Боевые искусства",
+    "url": "https://rutube.ru/api/tags/video/818017/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Отдыхаем всей семьёй",
+    "url": "https://rutube.ru/api/tags/video/8719/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Рекомендуем",
+    "url": "https://rutube.ru/api/tags/video/7487/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Новинки",
+    "url": "https://rutube.ru/api/tags/video/8151/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "За дверью напротив",
+    "url": "https://rutube.ru/api/tags/video/1365339/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "ТОП КИНОПОИСКА",
+    "url": "https://rutube.ru/api/metainfo/tv/811603/video/?show_hidden_videos=False&limit=20"
+  },
+  {
+    "name": "Тайны Бейкер‑стрит",
+    "url": "https://rutube.ru/api/tags/video/1364690/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Кинообзоры",
+    "url": "https://rutube.ru/api/tags/video/6046/?sort=tagged_d&show_hidden_videos=False&limit=20"
+  },
+  {
+    "name": "Оскар-2026",
+    "url": "https://rutube.ru/api/tags/video/1365207/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Фильмы в 4K",
+    "url": "https://rutube.ru/api/metainfo/tv/1491548/video/?show_hidden_videos=False&limit=20"
+  },
+  {
+    "name": "Популярные российские фильмы",
+    "url": "https://rutube.ru/api/tags/video/8702/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Романтика минувших дней",
+    "url": "https://rutube.ru/api/tags/video/1365238/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Грозовой перевал: все экранизации",
+    "url": "https://rutube.ru/api/metainfo/tv/1478618/video/?show_hidden_videos=False&limit=20"
+  },
+  {
+    "name": "В чужом теле: поменяться местами",
+    "url": "https://rutube.ru/api/tags/video/1364755/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Фильмы-головоломки",
+    "url": "https://rutube.ru/api/tags/video/1364130/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Новые ужасы",
+    "url": "https://rutube.ru/api/tags/video/1292499/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Супергерои в борьбе за мир",
+    "url": "https://rutube.ru/api/tags/video/1365251/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Гонки и автоспорт",
+    "url": "https://rutube.ru/api/tags/video/8754/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Свадебный букет кинолент",
+    "url": "https://rutube.ru/api/tags/video/30733/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Фильмы-катастрофы",
+    "url": "https://rutube.ru/api/tags/video/8150/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Рекомендуем",
+    "url": "https://rutube.ru/api/tags/video/1365375/?limit=50&posters=true&show_hidden_videos=False"
+  },
+  {
+    "name": "Мульт-хиты",
+    "url": "https://rutube.ru/api/tags/video/1365296/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Принцессы Диснея",
+    "url": "https://rutube.ru/api/tags/video/1364810/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Хвостатая компания",
+    "url": "https://rutube.ru/api/tags/video/1364813/?limit=50&posters=true&sort=tagged_d&show_hidden_videos=False"
+  },
+  {
+    "name": "Провожающая в последний путь Фрирен | Sousou no Frieren",
+    "url": "https://rutube.ru/api/metainfo/tv/1406141/video/?sort=publication_d&show_hidden_videos=False&limit=20"
+  },
+  {
+    "name": "Нежить и Неудача / Undead Unluck - Все серии [КОМНАТА ДИДИ]",
+    "url": "https://rutube.ru/api/metainfo/tv/1423246/video/?sort=publication_d&show_hidden_videos=False&limit=20"
+  },
+  {
+    "name": "Дайго из пожарной команды: Оранжевый, спасающий страну [Kazoku Project]",
+    "url": "https://rutube.ru/api/metainfo/tv/1290450/video/?sort=publication_d&show_hidden_videos=False&limit=20"
+  },
+  {
+    "name": "Темный дворецкий | Kuroshitsuji",
+    "url": "https://rutube.ru/api/metainfo/tv/1412634/video/?sort=publication_d&show_hidden_videos=False&limit=20"
+  }
+]
