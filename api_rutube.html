@@ -1,0 +1,355 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Rutube v2 — полная документация</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --bg-code: #161b22;
+            --text: #c9d1d9;
+            --link: #58a6ff;
+            --border: #30363d;
+            --accent: #1f6feb;
+            --heading: #f0f6fc;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+        .container { max-width: 960px; margin: 0 auto; }
+        h1, h2, h3, h4 { color: var(--heading); margin: 1.5em 0 0.5em; font-weight: 600; }
+        h1 { font-size: 2.2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.4em; margin-top: 0; }
+        h2 { font-size: 1.8rem; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+        h3 { font-size: 1.4rem; }
+        h4 { font-size: 1.1rem; color: var(--text); }
+        a { color: var(--link); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        code {
+            font-family: 'Cascadia Code', 'Fira Code', monospace;
+            background: var(--bg-code);
+            padding: 0.15em 0.4em;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            border: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1em;
+            overflow-x: auto;
+            font-size: 0.92rem;
+            line-height: 1.45;
+            margin: 1em 0;
+        }
+        pre code { background: none; border: none; padding: 0; white-space: pre; }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1.5em 0;
+            font-size: 0.95rem;
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 0.6em 0.8em;
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #21262d; font-weight: 600; }
+        ul, ol { margin: 0.8em 0 0.8em 2em; }
+        li { margin-bottom: 0.4em; }
+        hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+        .toc {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.2em 1.5em;
+            margin: 1.5em 0;
+        }
+        .toc ul { list-style: none; padding-left: 0; }
+        .toc > ul > li { margin-bottom: 0.3em; }
+        .toc ul ul { margin-left: 1.5em; }
+        .warning {
+            background: #da363315;
+            border-left: 3px solid #da3633;
+            padding: 0.8em 1em;
+            margin: 1.5em 0;
+            border-radius: 4px;
+        }
+        @media (max-width: 600px) {
+            body { padding: 1rem; }
+            table { font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+<h1>API Rutube v2 — полная документация</h1>
+<p><strong>Автор расшифровки:</strong> @bytebudda</p>
+<div class="warning">
+    <strong>Важное примечание:</strong> Это описание актуальной версии API Rutube (v2), которая не имеет публичной документации. Все данные собраны путём реверс-инжиниринга. Официальная документация для разработчиков (<code>http://rutube.ru/info/to_developers/</code>) описывает устаревшую версию API.
+</div>
+<p><strong>Последнее обновление:</strong> 2026-05-03 (дополнена витрина moviesgenres, модель subscriptionfilms, эндпоинт подписки на ТВ-шоу, Play Options)</p>
+
+<nav class="toc">
+    <h2>Оглавление</h2>
+    <ul>
+        <li><a href="#s1">1. Обзор</a></li>
+        <li>
+            <a href="#s2">2. Content API</a>
+            <ul>
+                <li><a href="#s2.1">2.1 Витрины (Feeds)</a></li>
+                <li><a href="#s2.2">2.2 Типы источников (content_type.model)</a></li>
+                <li><a href="#s2.3">2.3 Список видео (Теги / Плейлисты)</a></li>
+                <li><a href="#s2.4">2.4 Кардгруппы (Смешанные списки)</a></li>
+                <li><a href="#s2.5">2.5 Метаинформация ТВ-шоу</a></li>
+                <li><a href="#s2.6">2.6 Видео пользователя (Канал)</a></li>
+                <li><a href="#s2.7">2.7 Метаданные видео (расширенная структура)</a></li>
+                <li><a href="#s2.8">2.8 Поиск видео</a></li>
+                <li><a href="#s2.9">2.9 Параметры воспроизведения (Play Options)</a></li>
+                <li><a href="#s2.10">2.10 Пагинация</a></li>
+                <li><a href="#s2.11">2.11 Категории видео (полный список)</a></li>
+                <li><a href="#s2.12">2.12 Связанные эндпоинты метаинформации</a></li>
+                <li><a href="#s2.13">2.13 Витрина жанров кино (moviesgenres)</a></li>
+            </ul>
+        </li>
+        <li><a href="#s3">3. oEmbed API</a></li>
+        <li><a href="#s4">4. Player API</a></li>
+        <li><a href="#s5">5. Partner API (авторизованный доступ)</a></li>
+        <li><a href="#s6">6. Тонкости и особенности</a></li>
+        <li><a href="#s7">7. Примеры запросов</a></li>
+        <li><a href="#s8">8. Полезные ссылки</a></li>
+    </ul>
+</nav>
+
+<!-- 1. Обзор -->
+<h2 id="s1">1. Обзор</h2>
+<p>Rutube предоставляет несколько уровней API:</p>
+<ul>
+    <li><strong>Content API</strong> — получение контента (витрины, видео, плейлисты, каналы, поиск, категории);</li>
+    <li><strong>Player API</strong> — управление встроенным плеером;</li>
+    <li><strong>oEmbed API</strong> — встраивание видео по стандарту oEmbed;</li>
+    <li><strong>Partner API</strong> — загрузка и управление видео (требует авторизации).</li>
+</ul>
+<p>API возвращает данные в форматах JSON, JSONP и XML. Основной базовый URL — <code>https://rutube.ru/api</code>.</p>
+
+<!-- 2. Content API -->
+<h2 id="s2">2. Content API</h2>
+
+<h3 id="s2.1">2.1. Витрины (Feeds)</h3>
+<p>Витрины — способ организации и представления видеоконтента. Каждая витрина состоит из вкладок, содержащих источники карточек (теги, ТВ-шоу, пользователи и т.д.).</p>
+<p><strong>Эндпоинт:</strong> <code>GET https://rutube.ru/api/feeds/{slug}?format=json</code></p>
+<table>
+    <tr><th>Параметр</th><th>Тип</th><th>Описание</th></tr>
+    <tr><td>slug</td><td>string</td><td>Уникальный идентификатор витрины (например, movies, series, tnt)</td></tr>
+    <tr><td>format</td><td>string</td><td>Формат ответа (json, jsonp, xml, api для human-readable)</td></tr>
+</table>
+<p><strong>Пример ответа (основные поля):</strong></p>
+<pre><code>{
+  "id": 1,
+  "slug": "movies",
+  "name": "Фильмы",
+  "meta_description": "...",
+  "page_url": "https://rutube.ru/feeds/movies/",
+  "tabs": [ ... ]
+}</code></pre>
+
+<p><strong>Поля ответа витрины:</strong></p>
+<table>
+    <tr><th>Поле</th><th>Тип</th><th>Описание</th></tr>
+    <tr><td>id</td><td>number</td><td>ID витрины</td></tr>
+    <tr><td>slug</td><td>string</td><td>Идентификатор витрины</td></tr>
+    <tr><td>name</td><td>string</td><td>Название</td></tr>
+    <tr><td>meta_description</td><td>string</td><td>Описание</td></tr>
+    <tr><td>page_url</td><td>string</td><td>Адрес на rutube.ru</td></tr>
+    <tr><td>tabs</td><td>array</td><td>Массив вкладок</td></tr>
+</table>
+
+<p><strong>Поля вкладки (tabs[]):</strong></p>
+<table>
+    <tr><th>Поле</th><th>Тип</th><th>Описание</th></tr>
+    <tr><td>id</td><td>number</td><td>ID вкладки</td></tr>
+    <tr><td>name</td><td>string</td><td>Название</td></tr>
+    <tr><td>sort</td><td>string</td><td>Рекомендация сортировки (created_date, original, random)</td></tr>
+    <tr><td>order_number</td><td>number</td><td>Порядковый номер</td></tr>
+    <tr><td>slug</td><td>string|null</td><td>Уникальное название для hash-навигации</td></tr>
+    <tr><td>link</td><td>string|null</td><td>Внешняя ссылка (если задана, вкладка делает редирект)</td></tr>
+    <tr><td>resources</td><td>array</td><td>Источники карточек</td></tr>
+</table>
+
+<p><strong>Поля ресурса (resources[]):</strong></p>
+<table>
+    <tr><th>Поле</th><th>Тип</th><th>Описание</th></tr>
+    <tr><td>id</td><td>number</td><td>ID источника</td></tr>
+    <tr><td>object_id</td><td>string</td><td>Служебный ID</td></tr>
+    <tr><td>content_type</td><td>object</td><td>Тип источника (model: tag, tv, cardgroup, userchannel и др.)</td></tr>
+    <tr><td>url</td><td>string</td><td>Адрес для загрузки карточек</td></tr>
+    <tr><td>name</td><td>string</td><td>Название источника</td></tr>
+    <tr><td>extra_params</td><td>object</td><td>Дополнительные параметры</td></tr>
+</table>
+
+<h3 id="s2.2">2.2. Типы источников (content_type.model)</h3>
+<table>
+    <tr><th>Модель</th><th>Тип контента</th><th>Описание</th></tr>
+    <tr><td>tag</td><td>Список видео</td><td>Тег/подборка видео</td></tr>
+    <tr><td>tv</td><td>ТВ-шоу</td><td>Сериал или телешоу</td></tr>
+    <tr><td>tvlastepisode</td><td>Последний эпизод</td><td>Последний эпизод ТВ-шоу</td></tr>
+    <tr><td>playlist</td><td>Плейлист</td><td>Список видео (плоская структура)</td></tr>
+    <tr><td>cardgroup</td><td>Кардгруппа</td><td>Смешанный контейнер (видео, сериалы, каналы)</td></tr>
+    <tr><td>subscriptiontvseries</td><td>Подписка</td><td>Партнёрская подборка (структура как cardgroup)</td></tr>
+    <tr><td>subscriptionfilms</td><td>Подписка на фильмы</td><td>Подборка фильмов по подписке (аналогично cardgroup/subscriptiontvseries)</td></tr>
+    <tr><td>promogroup / promofeed</td><td>Промо</td><td>Промо-элементы (не видео)</td></tr>
+    <tr><td>userchannel</td><td>Канал</td><td>Пользователь Rutube</td></tr>
+    <tr><td>person</td><td>Персона</td><td>Актёр, режиссёр и т.д.</td></tr>
+    <tr><td>feedsource</td><td>Внешняя ссылка</td><td>Баннер или редирект</td></tr>
+</table>
+<p><em>Примечание по subscriptionfilms:</em> в витрине <code>moviesgenres</code> ресурс с model=subscriptionfilms ведёт на <code>/api/feeds/cardgroup/1428</code>, т.е. это обёртка над CardGroup с определёнными параметрами.</p>
+
+<h3 id="s2.3">2.3. Список видео (Теги / Плейлисты)</h3>
+<p><strong>Эндпоинт:</strong> <code>GET https://rutube.ru/api/tags/video/{tag_id}/?page=1&limit=20&format=json</code></p>
+<table>
+    <tr><th>Параметр</th><th>Тип</th><th>Описание</th></tr>
+    <tr><td>page</td><td>number</td><td>Номер страницы</td></tr>
+    <tr><td>limit</td><td>number</td><td>Количество элементов</td></tr>
+    <tr><td>sort</td><td>string</td><td>Сортировка (tagged_a, tagged_d, created_a, created_d, publication_a, publication_d)</td></tr>
+</table>
+<p><strong>Пример ответа (плоская структура):</strong></p>
+<pre><code>{
+  "results": [
+    {
+      "id": "abc123",
+      "type": "video",
+      "title": "Название",
+      "duration": 7234,
+      "thumbnail_url": "https://...",
+      "author": { "name": "Канал", "id": 456 },
+      "hits": 1500000,
+      "publication_ts": 1672531200,
+      "is_paid": false,
+      "pg_rating": { "age": 16 }
+    }
+  ],
+  "has_next": true,
+  "next": "/api/tags/video/7487/?page=2",
+  "page": 1,
+  "per_page": 20
+}</code></pre>
+
+<p><strong>Поля элемента списка (видео):</strong> id, type, title, duration, thumbnail_url, preview_url, author, hits, publication_ts, is_paid, pg_rating, description.</p>
+
+<h3 id="s2.4">2.4. Кардгруппы (Смешанные списки)</h3>
+<p><strong>Эндпоинт:</strong> <code>GET https://rutube.ru/api/feeds/cardgroup/{id}/?format=json</code></p>
+<p>Каждый элемент содержит <code>content_type.model</code> и вложенный <code>object</code>. Может включать tv, userchannel, tag.</p>
+<pre><code>{
+  "results": [
+    {
+      "content_type": { "model": "tv" },
+      "object": {
+        "id": 1478618,
+        "name": "Сериал XYZ",
+        "poster_url": "...",
+        "year_start": 2021,
+        "kinopoisk_rating": 7.8
+      }
+    }
+  ],
+  "has_next": false
+}</code></pre>
+
+<h3 id="s2.5">2.5. Метаинформация ТВ-шоу</h3>
+<p><strong>Эндпоинт:</strong> <code>GET https://rutube.ru/api/metainfo/tv/{tv_id}/?format=json</code></p>
+<p><strong>Эпизоды:</strong> <code>GET https://rutube.ru/api/metainfo/tv/{tv_id}/video/?page=1&sort=series_d&format=json</code><br/>
+Параметры сортировки: series_a, series_d, created_a, created_d, publication_a, publication_d. Фильтры: season, episode, origin__type (rtb, rst, ytb, vim, now).</p>
+
+<h3 id="s2.6">2.6. Видео пользователя (Канал)</h3>
+<p><code>GET https://rutube.ru/api/video/person/{person_id}/?page=1&limit=20&format=json</code></p>
+
+<h3 id="s2.7">2.7. Метаданные видео (расширенная структура)</h3>
+<p><code>GET https://rutube.ru/api/video/{video_id}/</code></p>
+<p>Возвращает детальную информацию: id, title, description, thumbnail_url, duration, hits, author, category, all_tags, restrictions, feed_url, feed_name, episode, season, tv_show_id, hide_comments, hide_likes, hide_dislikes, embed_url, html, persons, genres, show и многие другие (подробнее в полном ответе).</p>
+
+<h3 id="s2.8">2.8. Поиск видео</h3>
+<p><code>GET https://rutube.ru/api/search/video/?query={query}&page=1&limit=20&format=json</code><br/>Поддерживает фильтры: created, author_id, category_id, duration.</p>
+
+<h3 id="s2.9">2.9. Параметры воспроизведения (Play Options)</h3>
+<p><code>GET https://rutube.ru/api/play/options/{video_id}/</code></p>
+<p>Возвращает конфигурацию плеера: acl_access, black_rabbit, appearance (цвет, элементы управления), advert (массив рекламных блоков с url_template, start, count и т.д.), captions (субтитры), author, category, description. Полный перечень полей описан в разделе документации.</p>
+
+<h3 id="s2.10">2.10. Пагинация</h3>
+<p>Все списки содержат поля: results, page, has_next, next, per_page.</p>
+
+<h3 id="s2.11">2.11. Категории видео (полный список)</h3>
+<p><code>GET https://rutube.ru/api/video/categories/</code></p>
+<p>Возвращает массив категорий с полями: id, category_url, related_showcase, update_ts, name, short_name, for_kids, for_import. Полная таблица категорий (ID, название, slug, связанная витрина) приведена в документации.</p>
+
+<h3 id="s2.12">2.12. Связанные эндпоинты метаинформации</h3>
+<ul>
+    <li><strong>Персоны видео:</strong> <code>GET /api/metainfo/video/{video_id}/videoperson</code></li>
+    <li><strong>Жанры видео:</strong> <code>GET /api/metainfo/video/{video_id}/videogenre</code></li>
+    <li><strong>Информация о ТВ-шоу:</strong> <code>GET /api/metainfo/contenttvs/{video_id}</code></li>
+    <li><strong>Управление подпиской на ТВ-шоу:</strong> <code>POST</code> (или DELETE) <code>/api/subscription/card/tv/{tv_show_id}</code> — GET запрещён (возвращает 405). Требует аутентификации.</li>
+</ul>
+
+<h3 id="s2.13">2.13. Витрина жанров кино (moviesgenres)</h3>
+<p><code>GET https://rutube.ru/api/feeds/moviesgenres</code></p>
+<p>Это обычная витрина со структурой Feed, но её вкладки представляют кинематографические жанры: Комедия, Драма, Боевик, Приключения, Мелодрама, Семейный, Исторический, Триллер, Фантастика, Военный, Фэнтези, Детектив и др. Каждая вкладка содержит ресурсы типа tag и feedsource (баннеры). Slug’и вкладок соответствуют английским названиям жанров (comedy, drama, action, adventure и т.д.). Вкладки могут включать ресурсы subscriptionfilms, ведущие на cardgroup.</p>
+
+<!-- 3. oEmbed -->
+<h2 id="s3">3. oEmbed API</h2>
+<p><code>GET https://rutube.ru/api/oembed/?url={video_url}&format=json</code><br/>Возвращает стандартный oEmbed-ответ с HTML для встраивания.</p>
+
+<!-- 4. Player API -->
+<h2 id="s4">4. Player API</h2>
+<p>Встраивание через iframe: <code>https://rutube.ru/play/embed/{video_id}/</code>. Управление через postMessage: play, pause, stop, seek, setVolume, changeVideo, setSkinColor и другие. События: player:ready, player:playStart, player:changeState, player:currentTime и др. (подробно в полной версии).</p>
+
+<!-- 5. Partner API -->
+<h2 id="s5">5. Partner API (авторизованный доступ)</h2>
+<p>Требуется базовая HTTP-авторизация. Методы: загрузка видео, обновление, удаление, управление обложками, плейлистами. Подробнее в официальной документации v1.</p>
+
+<!-- 6. Тонкости -->
+<h2 id="s6">6. Тонкости и особенности</h2>
+<ul>
+    <li><strong>Плоская vs вложенная структура:</strong> теги/плейлисты — плоская, cardgroup/subscriptiontvseries/subscriptionfilms — вложенная (item.object).</li>
+    <li><strong>Превью:</strong> размеры ?size=l, m, s (пример: https://pic.rutube.ru/video/…?size=m).</li>
+    <li><strong>CORS:</strong> необходим прокси-сервер.</li>
+    <li><strong>Коды ошибок:</strong> 400, 401, 403, 404, 405, 500.</li>
+    <li><strong>Сортировка:</strong> для tv/person — series_a и т.д., для tag — tagged_a и т.д., для cardgroup/userchannel — ordering (publication_ts, created_ts, views, id).</li>
+</ul>
+
+<!-- 7. Примеры -->
+<h2 id="s7">7. Примеры запросов</h2>
+<ul>
+    <li>Витрина: <code>GET /api/feeds/movies?format=json</code></li>
+    <li>Тег: <code>GET /api/tags/video/7487/?page=1&format=json</code></li>
+    <li>Видео: <code>GET /api/video/b07639337aa57ce56578bbb9e40e0102/</code></li>
+    <li>Поиск: <code>GET /api/search/video/?query=комедия</code></li>
+    <li>Канал: <code>GET /api/video/person/123/</code></li>
+    <li>Эпизоды: <code>GET /api/metainfo/tv/28/video?season=1</code></li>
+    <li>Play Options: <code>GET /api/play/options/{id}/</code></li>
+    <li>Категории: <code>GET /api/video/categories/</code></li>
+    <li>Жанры кино: <code>GET /api/feeds/moviesgenres</code></li>
+</ul>
+
+<!-- 8. Ссылки -->
+<h2 id="s8">8. Полезные ссылки</h2>
+<ul>
+    <li>Официальная документация (v1): <a href="http://rutube.ru/info/to_developers/">http://rutube.ru/info/to_developers/</a></li>
+    <li>ShowcaseTutorial (v1): <a href="https://github.com/rutube/ShowcaseTutorial">GitHub</a></li>
+    <li>Player API (дополненное): <a href="https://github.com/evikza/Rutube-Player-JS-API-Doc">GitHub</a></li>
+    <li>PHP API Client: <a href="https://github.com/rutube/php-api-client">GitHub</a></li>
+</ul>
+<p><em>Все указанные ссылки относятся к версии API v1. Данная документация (v2) является более актуальной и составлена методом обратного инжиниринга.</em></p>
+
+</div>
+</body>
+</html>
+```
